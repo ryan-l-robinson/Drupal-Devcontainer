@@ -1,0 +1,58 @@
+{
+    "name": "drupal.com",
+    "dockerComposeFile": "../docker-compose.yml",
+    "remoteUser": "drupal",
+    "service": "web",
+    "runServices": ["web", "php", "db"],
+    "workspaceFolder": "/var/www/html/local.drupal.com",
+    "extensions": [
+      "gitlab.gitlab-workflow",
+      "gruntfuggly.todo-tree",
+      "eamodio.gitlens",
+      "gitkraken.gitkraken-authentication",
+      "cweijan.vscode-mysql-client2",
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "whatwedo.twig",
+      "marcostazi.vs-code-drupal",
+      "github.copilot",
+      "vscode-icons-team.vscode-icons",
+      "xdebug.php-debug",
+      "bmuskalla.vscode-tldr"
+    ],
+    "settings": {
+      "editor.formatOnPaste": true,
+      "editor.formatOnSave": true,
+      "workbench.editor.highlightModifiedTabs": true,
+      "files.trimFinalNewlines": true,
+      "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#000000",
+        "activityBar.activeBorder": "#f2a900",
+        "activityBar.background": "#000000",
+        "activityBar.foreground": "#ffffff",
+        "activityBar.inactiveForeground": "#ffffff",
+        "activityBarBadge.background": "#f2a900",
+        "activityBarBadge.foreground": "#330072",
+        "debugIcon.breakpointForeground": "#DB2C39",
+        "editorGroup.border": "#f2a900",
+        "panel.border": "#f2a900",
+        "sideBar.border": "#f2a900",
+        "titleBar.activeBackground": "#000000",
+        "titleBar.activeForeground": "#ffffff",
+        "titleBar.inactiveBackground": "#000000",
+        "titleBar.inactiveForeground": "#ffffff",
+        "sash.hoverBorder": "#DB2C39",
+        "statusBar.background": "#000000",
+        "statusBar.foreground": "#ffffff",
+        "statusBar.debuggingBackground": "#330072",
+        "statusBar.debuggingForeground": "#ffffff",
+        "statusBarItem.hoverBackground": "#DB2C39",
+        "statusBarItem.remoteBackground": "#330072",
+        "statusBarItem.remoteForeground": "#ffffff"
+      }
+    },
+    "postCreateCommand": "/bin/bash -c \"/postCreateCommand.sh\"",
+    "postAttachCommand": "/bin/bash -c \"source ~/.bashrc\"",
+    "shutdownAction": "stopCompose"
+  }
+  

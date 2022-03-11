@@ -1,0 +1,8 @@
+{
+    "url": "https://localhost/",
+    "chromeLaunchConfig": {
+        "args": ["--no-sandbox"],
+        "ignoreHTTPSErrors": true
+    },
+    "reporter": "cli"
+}

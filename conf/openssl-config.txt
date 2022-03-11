@@ -1,0 +1,12 @@
+ [req]
+ distinguished_name = req_distinguished_name
+ prompt = no
+
+ [ req_distinguished_name ]
+ countryName            = CA
+ stateOrProvinceName    = Province
+ localityName           = City
+ organizationName       = Organization
+ OU                     = Unit
+ commonName             = local.drupal.com
+ emailAddress           = drupal@example.com
