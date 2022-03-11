@@ -1,0 +1,49 @@
+version: "3.9"
+
+services:
+  web:
+    hostname: "web"
+    container_name: "web"
+    build:
+      context: ".devcontainer"
+      dockerfile: "web.Dockerfile"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - .:/var/www/html/local.drupal.com
+      - .devcontainer/.ssh:/home/drupal/.ssh
+    depends_on:
+      - db
+      - php
+    networks:
+      - "drupal"
+  php:
+    hostname: "php"
+    container_name: "php"
+    build:
+      context: ".devcontainer"
+      dockerfile: "php.Dockerfile"
+    volumes:
+      - .:/var/www/html/local.drupal.com
+    networks:
+      - "drupal"
+  db:
+    hostname: "db"
+    container_name: "db"
+    build:
+      context: ".devcontainer"
+      dockerfile: "db.Dockerfile"
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=drupal
+      - MYSQL_USER=drupal
+      - MYSQL_PASSWORD=drupal
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - "drupal"
+
+networks:
+  drupal:
