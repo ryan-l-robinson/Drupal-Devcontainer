@@ -47,3 +47,5 @@ logs/*
 
 # Ignore path alias configuration
 /sync/content/entities/path_alias/*
+/.editorconfig
+/.gitattributes

@@ -24,7 +24,6 @@ composer install --prefer-dist
 
 # Add drush alias to PATH
 echo "alias drush=\"/var/www/html/local.drupal.com/vendor/drush/drush/drush\"" >> ~/.bashrc
-echo "alias drush content-sync:export=\"drush content-sync:export --entity-types=user,node,block_content,file,paragraph,taxonomy_term,menu_link_content\"" >> ~/.bashrc
 
 # Copy the Drupal files
 if [[ -f ./.devcontainer/conf/drupal.settings.php ]]
@@ -47,9 +46,10 @@ fi
 
 # Import config and content
 vendor/drush/drush/drush site-install -y minimal
-vendor/drush/drush/drush cset -y system.site uuid "TODO: UUID TBD"
+#vendor/drush/drush/drush cset -y system.site uuid "1d9858de-2355-4510-aa4d-572debd4055c"
 vendor/drush/drush/drush config-import -y
 vendor/drush/drush/drush content-sync:import -y
+vendor/drush/drush/drush image-flush --all
 
 # Find homepage and set it again, since node IDs will be different after content sync
 home_id=$(vendor/drush/drush/drush sql-query 'SELECT nid FROM node_field_data where type="home" and status="1" and title="Home" limit 1;')
@@ -60,6 +60,11 @@ fi
 
 # Rebuild node access caches
 vendor/drush/drush/drush php-eval 'node_access_rebuild();'
+
+# Set the environment indicator
+vendor/drush/drush/drush cset -y environment_indicator.indicator name "Local Docker"
+vendor/drush/drush/drush cset -y environment_indicator.indicator fg_color "#ffffff"
+vendor/drush/drush/drush cset -y environment_indicator.indicator bg_color "#000000"
 
 # Rebuild cache
 vendor/drush/drush/drush cr

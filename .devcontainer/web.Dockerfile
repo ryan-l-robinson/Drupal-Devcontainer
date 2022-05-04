@@ -38,7 +38,7 @@ RUN sed -i "s/max_execution_time = 30/max_execution_time = 300/g" /etc/php.ini
 RUN sed -i "s/max_input_time = 60/max_input_time = 600/g" /etc/php.ini
 RUN sed -i "s/memory_limit = 128M/memory_limit = 2048M/g" /etc/php.ini
 RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 128M/g" /etc/php.ini
-RUN sed -i "s/post_max_size = 8M/post_max_size = 0/g" /etc/php.ini
+RUN sed -i "s/post_max_size = 8M/post_max_size = 256M/g" /etc/php.ini
 RUN sed -i "s/display_errors = Off/display_errors = On/g" /etc/php.ini
 RUN echo "# Increase timeout" >> /etc/httpd/conf.d/php.conf
 RUN echo "Timeout 1200" >> /etc/httpd/conf.d/php.conf
@@ -46,7 +46,6 @@ RUN echo "ProxyTimeout 1200" >> /etc/httpd/conf.d/php.conf
 
 # Install latest composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-RUN php -r "if (hash_file('sha384', 'composer-setup.php') === '906a84df04cea2aa72f40b5f787e49f22d4c2f19492ac310e8cba5b96ac8b64115ac402c8cd292b8a03482574915d1a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 RUN php composer-setup.php --install-dir /usr/bin --filename composer
 RUN php -r "unlink('composer-setup.php');"
 ENV COMPOSER_PROCESS_TIMEOUT=9999
