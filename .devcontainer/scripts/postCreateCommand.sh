@@ -39,17 +39,15 @@ if [[ ! -d sync/config ]]
 then
   mkdir -p sync/config
 fi
-if [[ ! -d sync/content ]]
-then
-  mkdir -p sync/content
-fi
 
-# Import config and content
+# Import config
 vendor/drush/drush/drush site-install -y minimal
-vendor/drush/drush/drush cset -y system.site uuid "1d9878de-3355-4510-af4d-575deb24055f"
+vendor/drush/drush/drush cset -y system.site uuid "3d9878de-3355-4510-af4d-575deb24055f"
 vendor/drush/drush/drush config-import -y
-vendor/drush/drush/drush content-sync:import -y
 vendor/drush/drush/drush image-flush --all
+
+# Sets admin password
+vendor/drush/drush/drush user:password admin "ZNB*ufm1tyz4rwc@yzk"
 
 # Find homepage and set it again, since node IDs will be different after content sync
 home_id=$(vendor/drush/drush/drush sql-query 'SELECT nid FROM node_field_data where type="home" and status="1" and title="Home" limit 1;')
