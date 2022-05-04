@@ -46,7 +46,7 @@ fi
 
 # Import config and content
 vendor/drush/drush/drush site-install -y minimal
-#vendor/drush/drush/drush cset -y system.site uuid "1d9858de-2355-4510-aa4d-572debd4055c"
+vendor/drush/drush/drush cset -y system.site uuid "1d9878de-3355-4510-af4d-575deb24055f"
 vendor/drush/drush/drush config-import -y
 vendor/drush/drush/drush content-sync:import -y
 vendor/drush/drush/drush image-flush --all
