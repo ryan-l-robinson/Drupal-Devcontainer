@@ -3,7 +3,7 @@ USER root
 SHELL ["/bin/bash", "-c"]
 
 # Install other needed packages
-RUN dnf install -y curl wget git zip mod_ssl httpd php-gd openssl which mariadb sudo patch
+RUN dnf install -y curl wget git zip mod_ssl httpd php-gd openssl which mariadb sudo patch vim
 
 # Apache configuration, including SSL certificates and logs
 RUN mkdir -p /etc/httpd/certs
