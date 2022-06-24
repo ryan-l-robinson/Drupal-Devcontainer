@@ -765,3 +765,16 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 # if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
 #   include $app_root . '/' . $site_path . '/settings.local.php';
 # }
+
+/**
+ * Enable local development services.
+ */
+$settings['container_yamls'][] = DRUPAL_ROOT . '/sites/local.services.yml';
+
+# Developer logging and caching tools
+$config['system.logging']['error_level'] = 'verbose';
+$config['config_split.config_split.config_dev']['status'] = TRUE;
+$config['system.performance']['css']['preprocess'] = FALSE;
+$config['system.performance']['js']['preprocess'] = FALSE;
+$settings['cache']['bins']['render'] = 'cache.backend.null';
+$settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
