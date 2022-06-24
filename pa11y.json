@@ -1,8 +1,12 @@
 {
-    "url": "https://localhost/",
-    "chromeLaunchConfig": {
-        "args": ["--no-sandbox"],
-        "ignoreHTTPSErrors": true
+    "defaults": {
+        "chromeLaunchConfig": {
+            "args": ["--no-sandbox"],
+            "ignoreHTTPSErrors": true
+        },
+        "reporters": [
+            "cli"
+        ]
     },
-    "reporter": "cli"
+    "standard": "WCAG2AAA"
 }
