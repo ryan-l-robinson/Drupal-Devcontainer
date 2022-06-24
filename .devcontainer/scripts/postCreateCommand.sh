@@ -30,6 +30,10 @@ if [[ -f ./.devcontainer/conf/drupal.settings.php ]]
 then
   sudo cp .devcontainer/conf/drupal.settings.php web/sites/default/settings.php
 fi
+if [[ -f ./.devcontainer/conf/local.services.yml ]]
+then
+  sudo cp .devcontainer/conf/local.services.yml web/sites/local.services.yml
+fi
 if [[ ! -d private ]]
 then
   mkdir private
@@ -44,17 +48,12 @@ fi
 vendor/drush/drush/drush site-install -y minimal
 vendor/drush/drush/drush cset -y system.site uuid "3d9878de-3355-4510-af4d-575deb24055f"
 vendor/drush/drush/drush config-import -y
+
+# Flush generated images
 vendor/drush/drush/drush image-flush --all
 
 # Sets admin password
 vendor/drush/drush/drush user:password admin "ZNB*ufm1tyz4rwc@yzk"
-
-# Find homepage and set it again, since node IDs will be different after content sync
-home_id=$(vendor/drush/drush/drush sql-query 'SELECT nid FROM node_field_data where type="home" and status="1" and title="Home" limit 1;')
-if [[ ! -z ${home_id} ]]
-then
-  vendor/drush/drush/drush cset -y system.site page.front /node/$home_id
-fi
 
 # Rebuild node access caches
 vendor/drush/drush/drush php-eval 'node_access_rebuild();'
