@@ -1,5 +1,5 @@
 {
-    "name": "drupal.com",
+    "name": "local.drupal.com",
     "dockerComposeFile": "../docker-compose.yml",
     "remoteUser": "drupal",
     "service": "web",
@@ -15,7 +15,6 @@
       "dbaeumer.vscode-eslint",
       "whatwedo.twig",
       "marcostazi.vs-code-drupal",
-      "github.copilot",
       "vscode-icons-team.vscode-icons",
       "xdebug.php-debug",
       "bmuskalla.vscode-tldr"
