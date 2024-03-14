@@ -1,73 +1,85 @@
-FROM oraclelinux:8
+FROM drupal:php8.1-apache
 USER root
 SHELL ["/bin/bash", "-c"]
 
-# Install other needed packages
-RUN dnf install -y curl wget git zip mod_ssl httpd php-gd openssl which mariadb sudo patch vim
+# Install needed repositories and general packages, after putting the php.ini in place
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && mv /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini \
+    && apt-get install -y wget git zip which sudo vim locales default-mysql-client docker nodejs npm
+
+# Add playwright/axe accessibility testing tools.
+RUN npm install playwright @axe-core/playwright @playwright/test fsp-xml-parser \
+    && npm init playwright@latest --yes -- --quiet --browser=chromium --browser=firefox --browser=webkit --lang=ts \
+    && npx playwright install --with-deps chromium firefox webkit \
+    && rm /opt/drupal/tests/example.spec.ts
+# The example test is generated but we don't want it, so removing it again with line above.
+ENV BASE_URL="https://local.library.wlu.ca"
+ENV SITEMAP_PATH="/opt/drupal/web/sites/default/files/xmlsitemap/NXhscRe0440PFpI5dSznEVgmauL25KojD7u4e9aZwOM/1.xml"
+
+# Install PHP extensions, using PECL
+RUN pecl channel-update pecl.php.net \
+    && pecl install apcu xdebug uploadprogress \
+    && docker-php-ext-enable apcu \
+    && echo "apc.enable_cli=1" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini \
+    && docker-php-ext-enable xdebug \
+    && touch /var/log/xdebug.log \
+    && chown www-data:www-data /var/log/xdebug.log \
+    && docker-php-ext-enable uploadprogress
+COPY .devcontainer/php /usr/local/etc/php/conf.d
+
+# Add www-data user to sudo group, and allow those users to sudo without password
+RUN usermod -a -G sudo www-data \
+    && usermod -d /user/www-data www-data \
+    && mkdir -p /user/www-data/.vscode-server \
+    && chown -R www-data:www-data /user/www-data \
+    && mkdir -p /user/www-data/.ssh \
+    && chown -R www-data:www-data /user/www-data/.ssh \
+    && chmod 700 -R /user/www-data/.ssh \
+    && ssh-keyscan -t rsa gitlab.com >> /user/www-data/.ssh/known_hosts \
+    && sed -i "s/%sudo	ALL=(ALL:ALL) ALL/%sudo	ALL=(ALL)	NOPASSWD: ALL/g" /etc/sudoers
+
+# Fixes locale errors, must happen before Apache
+RUN echo "LC_ALL=en_CA.UTF-8" >> /etc/environment \
+    && echo "en_CA.UTF-8 UTF-8" >> /etc/locale.gen \
+    && echo "LANG=en_CA.UTF-8" > /etc/locale.conf \
+    && locale-gen en_CA.UTF-8
 
 # Apache configuration, including SSL certificates and logs
-RUN mkdir -p /etc/httpd/certs
-COPY /conf/openssl-config.txt /etc/httpd/certs/openssl-config.txt
-RUN openssl req -batch -newkey rsa:4096 -nodes -sha256 -keyout /etc/httpd/certs/local.drupal.com.key -x509 -days 3650 -out /etc/httpd/certs/local.drupal.com.crt -config /etc/httpd/certs/openssl-config.txt
-RUN openssl req -batch -newkey rsa:4096 -nodes -sha256 -keyout /etc/pki/tls/private/localhost.key -x509 -days 3650 -out /etc/pki/tls/certs/localhost.crt -config /etc/httpd/certs/openssl-config.txt
-RUN mkdir -p /var/log/local.drupal.com
-COPY /conf/local.drupal.com.conf /etc/httpd/conf.d/local.drupal.com.conf
+COPY .devcontainer/apache /etc/apache2
+RUN a2enmod ssl \
+    && mkdir -p /etc/apache2/certs \
+    && openssl req -batch -newkey rsa:4096 -nodes -sha256 -keyout /etc/apache2/certs/library.wlu.ca.key -x509 -days 3650 -out /etc/apache2/certs/library.wlu.ca.crt -config /etc/apache2/certs/openssl-config.txt \
+    && chown -R root:www-data /etc/apache2 \
+    && chmod 770 -R /etc/apache2/certs
 
-# Add drupal user within the apache group
-RUN useradd drupal
-RUN usermod -aG apache drupal
-# Change default permissions to 775 instead of 755, so that the drupal user can write to the web root
-RUN umask 0002
-# Create sudo group, add drupal user to it, and allow those users to sudo without password
-RUN groupadd sudo
-RUN usermod -aG sudo drupal
-RUN sed -i "s/# %wheel	ALL=(ALL)	NOPASSWD: ALL/%sudo	ALL=(ALL)	NOPASSWD: ALL/g" /etc/sudoers
-
-# Install PHP 8.0, which needs a different repository
-RUN dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-RUN dnf -y install https://rpms.remirepo.net/enterprise/remi-release-8.rpm
-RUN dnf -y module reset php
-RUN dnf -y module enable php:remi-8.0
-RUN dnf -y install php
-
-# Install PHP extensions, including PECL with APCU and UploadProgress extensions, recommended by Drupal
-RUN dnf install -y php-pdo php-zip php-mysqlnd gcc make php-devel php-pear php-pecl-apcu php-pecl-uploadprogress
+# Assign correct permissions on the web root
+COPY --chown=www-data:www-data .. /opt/drupal
+COPY --chown=www-data:www-data .devcontainer/drupal /opt/drupal/web/sites
+COPY --chown=www-data:www-data scripts /opt/drupal/scripts
+RUN chown -R www-data:www-data /var/www \
+    && chown -R www-data:www-data /opt \
+    && chmod -R 770 /opt/drupal/scripts
+# I don't know why it requires the extra chown after already setting it within the ADD, but it does
 
 # Increase resources for PHP
-RUN sed -i "s/max_execution_time = 30/max_execution_time = 300/g" /etc/php.ini
-RUN sed -i "s/max_input_time = 60/max_input_time = 600/g" /etc/php.ini
-RUN sed -i "s/memory_limit = 128M/memory_limit = 2048M/g" /etc/php.ini
-RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 128M/g" /etc/php.ini
-RUN sed -i "s/post_max_size = 8M/post_max_size = 256M/g" /etc/php.ini
-RUN sed -i "s/display_errors = Off/display_errors = On/g" /etc/php.ini
-RUN echo "# Increase timeout" >> /etc/httpd/conf.d/php.conf
-RUN echo "Timeout 1200" >> /etc/httpd/conf.d/php.conf
-RUN echo "ProxyTimeout 1200" >> /etc/httpd/conf.d/php.conf
+RUN sed -i "s/max_execution_time = 30/max_execution_time = 300/g" /usr/local/etc/php/php.ini \
+    && sed -i "s/max_input_time = 60/max_input_time = 600/g" /usr/local/etc/php/php.ini \
+    && sed -i "s/memory_limit = 128M/memory_limit = 2048M/g" /usr/local/etc/php/php.ini \
+    && sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 128M/g" /usr/local/etc/php/php.ini \
+    && sed -i "s/post_max_size = 8M/post_max_size = 256M/g" /usr/local/etc/php/php.ini \
+    && sed -i "s/;max_input_vars = 1000/max_input_vars = 10000/g" /usr/local/etc/php/php.ini
 
-# Install latest composer
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-RUN php composer-setup.php --install-dir /usr/bin --filename composer
-RUN php -r "unlink('composer-setup.php');"
-ENV COMPOSER_PROCESS_TIMEOUT=9999
+# Set up nicer grep results
+ENV GREP_COLORS='mt=1;37;41'
+COPY .devcontainer/.bash_profile /user/www-data/.bash_profile
 
-# Install pa11y accessibility testing tool, including NodeJS
-RUN dnf install -y nodejs pango.x86_64 libXcomposite.x86_64 libXdamage.x86_64 libXext.x86_64 libXi.x86_64 libXtst.x86_64 cups-libs.x86_64 libXScrnSaver.x86_64 libXrandr.x86_64 GConf2.x86_64 alsa-lib.x86_64 atk.x86_64 gtk3.x86_64 nss libdrm libgbm xorg-x11-fonts-100dpi xorg-x11-fonts-75dpi xorg-x11-utils xorg-x11-fonts-cyrillic xorg-x11-fonts-Type1 xorg-x11-fonts-misc libxshmfence
-RUN npm install pa11y -g --unsafe-perm=true --allow-root
+# Copy the ALC usernames sample file
+COPY .devcontainer/conf/libraryusername.csv /var/alc/libraryusername.csv
+RUN chown www-data:www-data /var/alc/libraryusername.csv \
+    && chmod 644 /var/alc/libraryusername.csv
 
-# Install XDebug
-RUN dnf install -y php-pecl-xdebug
-RUN touch /var/log/xdebug.log
-RUN chown drupal:drupal /var/log/xdebug.log
-COPY /conf/xdebug.ini /etc/php.d/xdebug.ini
-
-# Scripts for further actions to take on creation and attachment
-COPY ./scripts/postCreateCommand.sh /postCreateCommand.sh
-RUN ["chmod", "+x", "/postCreateCommand.sh"]
-
-# Expose Apache and MySQL
-EXPOSE 80
-EXPOSE 443
-
-# Start Apache
-ENTRYPOINT ["/usr/sbin/httpd"]
-CMD ["-D", "FOREGROUND"]
+# Get and build the Drupal code, with proper permissions
+USER www-data
+RUN cd /opt/drupal \
+    && composer install

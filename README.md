@@ -1,6 +1,6 @@
 # Drupal devcontainer
 
-This project provides a generic demonstration of a devcontainer setup designed for development of a Drupal website in Oracle Linux 8 based environments.
+This project provides a generic demonstration of a devcontainer setup designed for development of a Drupal website.
 
 ## Usage
 
@@ -12,17 +12,16 @@ This will build the necessary containers and reopen VS Code within the Apache co
 
 ## Containers
 
-Three containers:
+The first container has PHP and Apache and is built on an official Drupal image. It includes:
 
-1. PHP-FPM container built on Oracle Linux 8.
-1. Apache container built on Oracle Linux 8.
-1. MariaDB container using generic official image.
-
-## Includes
-
-- PHP 8.0 and PHP extensions recommended for Drupal 9: APCU and UploadProgress
+- PHP 8.1 and PHP extensions recommended for Drupal 10: APCU and UploadProgress
 - Latest version of composer.
-- Pa11y accessibility testing tool.
 - XDebug for PHP testing.
-- User named "drupal" with sudo ability.
+- User named "www-data" with sudo ability.
 - Self-signed certificate for HTTPS browsing.
+
+The second is a database container, using the generic official MariaDB image.
+
+## Oracle Linux Version
+
+An older version that required Oracle Linux has been split off into the oracle-linux branch. Work will continue forward with the main branch, but that is maintained for anybody looking for an Oracle Linux version.
