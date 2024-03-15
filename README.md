@@ -25,3 +25,14 @@ The second is a database container, using the generic official MariaDB image.
 ## Oracle Linux Version
 
 An older version that required Oracle Linux has been split off into the oracle-linux branch. Work will continue forward with the main branch, but that is maintained for anybody looking for an Oracle Linux version.
+
+## TODO
+
+- [ ] Fix installing drupal core with composer
+- [ ] Test that site is now functional and loading
+- [ ] Fix grep colour highlighting
+- [ ] Fix warning about XDebug already being loaded
+- [ ] Add volume for SSH key shared from local machine so it doesn't have to be copied each time
+- [ ] Confirm the Drupal formatter is working
+- [ ] Create alternate version where images are built in GitHub Actions instead of locally
+- [ ] Add settings for the MySQL extension to have the database connection ready to go?

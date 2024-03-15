@@ -9,17 +9,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - "./.devcontainer/:/opt/drupal/.devcontainer/"
-      - "./.vscode/:/opt/drupal/.vscode/"
-      - "./patches/:/opt/drupal/patches/"
-      - "./private/:/opt/drupal/private/"
-      - "./scripts/:/opt/drupal/scripts/"
-      - "./web/sites/default/files/:/opt/drupal/web/sites/default/files/"
-      - "./.env:/opt/drupal/.env"
-      - "./docker-compose.yml:/opt/drupal/docker-compose.yml"
-      - "./README.md:/opt/drupal/README.md"
-      - "${USERPROFILE}/.ssh/:/user/www-data/.ssh/"
-      - "${USERPROFILE}/.gitconfig:/user/www-data/.gitconfig"
+      - ./:/opt/drupal/
     user: "www-data:www-data"
     depends_on:
       - db
