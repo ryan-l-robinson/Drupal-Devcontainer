@@ -57,4 +57,6 @@ ENV GREP_COLORS='mt=1;37;41'
 
 # Scripts for further actions to take on creation and attachment
 COPY ./scripts/postCreateCommand.sh /postCreateCommand.sh
-RUN ["chmod", "777", "/postCreateCommand.sh"]
+
+RUN chown www-data:www-data /postCreateCommand.sh \
+    && chmod 777 /postCreateCommand.sh
