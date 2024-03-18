@@ -73,7 +73,7 @@
       }
     }
   },
-  "postCreateCommand": "/bin/bash -c \"sudo chown -R www-data:www-data /postCreateCommand.sh && /postCreateCommand.sh\"",
+  "postCreateCommand": "/bin/bash -c \"sudo chown -R www-data:www-data /opt/drupal && cd /opt/drupal && composer install && sudo chown -R www-data:www-data /postCreateCommand.sh && /postCreateCommand.sh\"",
   "postAttachCommand": "/bin/bash -c \"sudo chown -R www-data:www-data /opt/drupal && sudo chown -R www-data /user/www-data && sudo chmod -R 700 /user/www-data/.ssh && source ~/.bashrc\"",
   "shutdownAction": "stopCompose"
 }

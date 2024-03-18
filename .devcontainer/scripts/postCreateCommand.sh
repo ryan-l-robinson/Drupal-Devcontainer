@@ -2,8 +2,9 @@
 
 cd /opt/drupal
 
-# Install site's contributed code base from composer
-composer install
+# TODO: errors here say that required files cannot be found
+cp .devcontainer/drupal/default/settings.php web/sites/default/settings.php
+cp .devcontainer/drupal/local.services.yml web/sites
 
 # Import config
 vendor/drush/drush/drush site-install -y minimal

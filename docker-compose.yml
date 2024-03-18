@@ -14,6 +14,8 @@ services:
       - "./patches/:/opt/drupal/patches/"
       - "./private/:/opt/drupal/private/"
       - "./web/sites/default/files/:/opt/drupal/web/sites/default/files/"
+      - "./composer.json:/opt/drupal/composer.json"
+      - "./composer.lock:/opt/drupal/composer.lock"
       - "./docker-compose.yml:/opt/drupal/docker-compose.yml"
       - "./README.md:/opt/drupal/README.md"
       - "${USERPROFILE}/.ssh/:/user/www-data/.ssh/"
