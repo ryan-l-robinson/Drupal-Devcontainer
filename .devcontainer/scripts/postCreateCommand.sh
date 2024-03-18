@@ -3,7 +3,7 @@
 cd /opt/drupal
 
 # Install site's contributed code base from composer
-composer install --prefer-dist
+composer install
 
 # Import config
 vendor/drush/drush/drush site-install -y minimal
