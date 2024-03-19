@@ -54,7 +54,7 @@ RUN sed -i "s/max_execution_time = 30/max_execution_time = 300/g" /usr/local/etc
 
 # Set up nicer grep results
 ENV GREP_COLORS='mt=1;37;41'
-COPY .devcontainer/.bashrc /user/www-data/.bashrc
+COPY .bashrc /user/www-data/.bashrc
 
 # Scripts for further actions to take on creation and attachment
 COPY ./scripts/postCreateCommand.sh /postCreateCommand.sh

@@ -1,5 +1,5 @@
 _core:
-  default_config_hash: Ylohp6sdrL1dU4v-KcXzXTP-U8BAMgh4NWJA9eGHtO4
+  default_config_hash: 1TswGK46jyu77aIM7Z-0JVQs5bxHmo-gtgrvrQGMXxc
 favicon:
   use_default: true
 features:
@@ -14,3 +14,4 @@ third_party_settings:
     module_link: true
 mobile_menu_all_widths: 0
 site_branding_bg_color: default
+base_primary_color: '#1b9ae4'

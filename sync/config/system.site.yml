@@ -1,10 +1,10 @@
 _core:
   default_config_hash: l58O_yEXSo-SeJi19LXdzTU1tNJG3lmnIhCitRkM1tk
 langcode: en
-uuid: 86e97fb4-526b-4cc1-8bb9-dc81cb9a5313
-name: 'Drupal Devcontainer Demo'
+uuid: 3d9878de-3355-4510-af4d-575deb24055f
+name: 'Drupal Dev Container'
 mail: admin@example.com
-slogan: 'Developed by Ryan Robinson'
+slogan: ''
 page:
   403: ''
   404: ''
