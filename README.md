@@ -31,7 +31,7 @@ The first container has PHP and Apache and is built on an official Drupal image.
 - PHP 8.1 and PHP extensions recommended for Drupal 10: APCU and UploadProgress
 - Latest version of composer.
 - XDebug for PHP testing.
-- User named "www-data" with sudo ability.
+- User "www-data" with sudo permissions.
 - Self-signed certificate for HTTPS browsing.
 - Useful VS Code extensions and settings including Drupal formatting standards.
 - Useful Drupal modules module_filter and admin_toolbar.
@@ -44,7 +44,6 @@ An older version that required Oracle Linux has been split off into the oracle-l
 
 ## TODO
 
-- [ ] Fix grep colour highlighting
 - [ ] Fix warning about XDebug already being loaded, confirm XDebug is working
 - [ ] Confirm the Drupal formatter is working
 - [ ] Update to PHP 8.2

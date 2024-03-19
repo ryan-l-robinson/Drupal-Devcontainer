@@ -13,12 +13,12 @@
         "gitkraken.gitkraken-authentication",
         "cweijan.vscode-mysql-client2",
         "esbenp.prettier-vscode",
-        "dbaeumer.vscode-eslint",
+        "Stanislav.vscode-drupal",
         "whatwedo.twig",
-        "marcostazi.vs-code-drupal",
         "vscode-icons-team.vscode-icons",
-        "xdebug.php-debug",
-        "bmuskalla.vscode-tldr"
+        "DEVSENSE.phptools-vscode",
+        "bmuskalla.vscode-tldr",
+        "ms-playwright.playwright"
       ],
       "settings": {
         "files": {
