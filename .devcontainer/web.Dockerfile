@@ -6,7 +6,7 @@ SHELL ["/bin/bash", "-c"]
 RUN apt-get update \
     && apt-get upgrade -y \
     && mv /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini \
-    && apt-get install -y wget git zip which sudo vim locales default-mysql-client docker nodejs npm
+    && apt-get install -y wget git zip which sudo vim locales default-mysql-client docker nodejs npm dos2unix
 
 # Install PHP extensions, using PECL
 RUN pecl channel-update pecl.php.net \
