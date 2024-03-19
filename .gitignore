@@ -18,10 +18,6 @@
 /web/sites/default/default.settings.php
 /web/.htaccess
 
-# For now, include user files in git except the automatic css/js/php files
-# Once production is ready, we can go back to ignoring these and let stage_file_proxy do the sync from production 
-/web/sites/*/files/
-
 # Ignore SimpleTest multi-site environment.
 /web/sites/simpletest
 
@@ -34,14 +30,6 @@
 # Ignore certs for SP/SSO/SAML
 /certs/
 
-# Ignore folders created by Drupal Console
-/console/
-
 # Ignore backups and logs
 backups/*
 logs/*
-
-# Ignore path alias configuration
-/sync/content/entities/path_alias/*
-/.editorconfig
-/.gitattributes
