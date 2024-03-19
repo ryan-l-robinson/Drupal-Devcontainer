@@ -10,6 +10,7 @@ services:
       - "443:443"
     volumes:
       - "./.devcontainer/:/opt/drupal/.devcontainer/"
+      - "./.git/:/opt/drupal/.git/"
       - "./.vscode/:/opt/drupal/.vscode/"
       - "./patches/:/opt/drupal/patches/"
       - "./private/:/opt/drupal/private/"

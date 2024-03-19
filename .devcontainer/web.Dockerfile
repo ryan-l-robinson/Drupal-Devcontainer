@@ -6,7 +6,7 @@ SHELL ["/bin/bash", "-c"]
 RUN apt-get update \
     && apt-get upgrade -y \
     && mv /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini \
-    && apt-get install -y wget git zip which sudo vim locales default-mysql-client docker nodejs npm dos2unix
+    && apt-get install -y wget git zip which sudo vim locales default-mysql-client docker nodejs npm
 
 # Install PHP extensions, using PECL
 RUN pecl channel-update pecl.php.net \
@@ -54,6 +54,7 @@ RUN sed -i "s/max_execution_time = 30/max_execution_time = 300/g" /usr/local/etc
 
 # Set up nicer grep results
 ENV GREP_COLORS='mt=1;37;41'
+COPY .devcontainer/.bashrc /user/www-data/.bashrc
 
 # Scripts for further actions to take on creation and attachment
 COPY ./scripts/postCreateCommand.sh /postCreateCommand.sh
