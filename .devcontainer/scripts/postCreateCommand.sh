@@ -2,7 +2,10 @@
 
 cd /opt/drupal
 
-# TODO: errors here say that required files cannot be found
+# Install packages
+composer install
+
+# Copy settings files
 cp .devcontainer/drupal/default/settings.php web/sites/default/settings.php
 cp .devcontainer/drupal/local.services.yml web/sites
 
