@@ -11,6 +11,8 @@ services:
     volumes:
       - "./.devcontainer/:/opt/drupal/.devcontainer/"
       - "./.git/:/opt/drupal/.git/"
+      - "./.gitattributes:/opt/drupal/.gitattributes"
+      - "./.gitignore:/opt/drupal/.gitignore"
       - "./.vscode/:/opt/drupal/.vscode/"
       - "./patches/:/opt/drupal/patches/"
       - "./private/:/opt/drupal/private/"
