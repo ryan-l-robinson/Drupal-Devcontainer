@@ -11,11 +11,11 @@ services:
     volumes:
       - "./.devcontainer/:/opt/drupal/.devcontainer/"
       - "./.git/:/opt/drupal/.git/"
-      - "./.gitattributes:/opt/drupal/.gitattributes"
       - "./.gitignore:/opt/drupal/.gitignore"
       - "./.vscode/:/opt/drupal/.vscode/"
       - "./patches/:/opt/drupal/patches/"
       - "./private/:/opt/drupal/private/"
+      - "./sync/:/opt/drupal/sync/"
       - "./web/sites/default/files/:/opt/drupal/web/sites/default/files/"
       - "./composer.json:/opt/drupal/composer.json"
       - "./composer.lock:/opt/drupal/composer.lock"
