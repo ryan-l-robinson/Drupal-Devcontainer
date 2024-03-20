@@ -1,12 +1,12 @@
-FROM drupal:php8.1-apache
+FROM drupal:php8.2-apache
 USER root
 SHELL ["/bin/bash", "-c"]
 
-# Install needed repositories and general packages, after putting the php.ini in place
-RUN apt-get update \
+# Install needed repositories and general packages, and put the php.ini in place
+RUN apt-get update -y \
+    && apt-get install -y wget git zip which sudo vim locales default-mysql-client docker nodejs npm \
     && apt-get upgrade -y \
-    && mv /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini \
-    && apt-get install -y wget git zip which sudo vim locales default-mysql-client docker nodejs npm
+    && mv /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 
 # Install PHP extensions, using PECL
 RUN pecl channel-update pecl.php.net \

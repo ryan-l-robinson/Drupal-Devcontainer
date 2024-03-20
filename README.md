@@ -28,7 +28,7 @@ If you would like to change these before building the images, you can do so in .
 
 The first container has PHP and Apache and is built on an official Drupal image. It includes:
 
-- PHP 8.1 and PHP extensions recommended for Drupal 10: APCU and UploadProgress
+- PHP 8.2 and PHP extensions recommended for Drupal 10: APCU and UploadProgress
 - Latest version of composer.
 - XDebug for PHP testing.
 - User "www-data" with sudo permissions.
@@ -44,8 +44,8 @@ An older version that required Oracle Linux has been split off into the oracle-l
 
 ## TODO
 
-- [ ] Fix warning about XDebug already being loaded, confirm XDebug is working
+- [ ] Fix extensions not installing
+- [ ] Confirm that XDebug works for debugging
 - [ ] Confirm the Drupal formatter is working
-- [ ] Update to PHP 8.2
 - [ ] Create alternate version where images are built in GitHub Actions instead of locally
 - [ ] Add settings for the MySQL extension to have the database connection ready to go?
