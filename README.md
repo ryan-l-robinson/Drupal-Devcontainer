@@ -44,8 +44,5 @@ An older version that required Oracle Linux has been split off into the oracle-l
 
 ## TODO
 
-- [ ] Fix extensions not installing
-- [ ] Confirm that XDebug works for debugging
-- [ ] Confirm the Drupal formatter is working
 - [ ] Create alternate version where images are built in GitHub Actions instead of locally
 - [ ] Add settings for the MySQL extension to have the database connection ready to go?
