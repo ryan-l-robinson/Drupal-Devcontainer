@@ -1,5 +1,5 @@
 {
-  "name": "local.drupal.com",
+  "name": "local.example.com",
   "dockerComposeFile": "../docker-compose.yml",
   "remoteUser": "www-data",
   "service": "web",

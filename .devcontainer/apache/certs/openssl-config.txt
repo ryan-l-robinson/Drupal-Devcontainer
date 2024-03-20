@@ -8,5 +8,5 @@
  localityName           = City
  organizationName       = Organization
  OU                     = Unit
- commonName             = local.drupal.com
+ commonName             = local.example.com
  emailAddress           = drupal@example.com

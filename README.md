@@ -10,10 +10,10 @@ This project provides a generic devcontainer setup designed for development of a
 
 This will build the necessary containers and reopen VS Code within the Apache container ("web").
 
-After building, the site can be browsed at https://localhost, or https://local.drupal.com if you set up your machine's hosts file with a record like:
+After building, the site can be browsed at https://localhost, or https://local.example.com if you set up your machine's hosts file with a record like:
 
 ```
-127.0.0.1 local.drupal.com
+127.0.0.1 local.example.com
 ```
 
 The admin account is:
