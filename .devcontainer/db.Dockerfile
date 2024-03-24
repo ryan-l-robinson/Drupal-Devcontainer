@@ -1,4 +1,4 @@
-# Use the default MariaDB image, not a specific Oracle Linux one
+# Use the default MariaDB image
 FROM mariadb:latest
 
 ENV MARIADB_ROOT_PASSWORD=drupalroot
