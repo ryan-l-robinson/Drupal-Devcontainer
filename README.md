@@ -1,5 +1,7 @@
 # Drupal devcontainer
 
+An updated version of this project is now available on (https://gitlab.com/ryan-l-robinson/drupal-dev-environment)[my GitLab], since that now includes some GitLab CI/CD jobs. I do hope to mirror that to GitHub and possibly set up GitHub equivalents for many of the jobs.
+
 This project provides a generic devcontainer setup designed for development of a Drupal website.
 
 ## Usage
@@ -27,9 +29,10 @@ If you would like to change these before building the images, you can do so in .
 ## Containers
 
 The first container has PHP and Apache and is built on an official Drupal image. The second is a database container, using the official MariaDB image.
+
 The setup includes:
 
-- PHP 8.2 and PHP extensions recommended for Drupal 10: APCU and UploadProgress
+- PHP 8.3 and PHP extensions recommended for Drupal 10: APCU and UploadProgress
 - Latest version of composer.
 - XDebug for PHP testing.
 - User "www-data" with sudo permissions.
