@@ -1,6 +1,6 @@
 # Drupal devcontainer
 
-An updated version of this project is now available on (https://gitlab.com/ryan-l-robinson/drupal-dev-environment)[my GitLab], since that now includes some GitLab CI/CD jobs. I do hope to mirror that to GitHub and possibly set up GitHub equivalents for many of the jobs.
+An updated version of this project is now available on [my GitLab](https://gitlab.com/ryan-l-robinson/drupal-dev-environment), since that now includes some GitLab CI/CD jobs. I do hope to mirror that to GitHub and possibly set up GitHub equivalents for many of the jobs.
 
 This project provides a generic devcontainer setup designed for development of a Drupal website.
 
